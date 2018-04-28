@@ -4,6 +4,9 @@
 --Leaded glass uses a 'leading' (pronounced "led-ing") material to secure the glass pieces in place.  This is traditionally the metal lead. Specify which 'leading'  metal will be used in crafting the panes.  Lead or Tin might be appropriate, but for the default game, these are not available:
 local leadingMetal = "default:steel_ingot"
 
+no_join= { --Add nodes you don't want the panes to connect to here.
+--['default:dirt'] = true,
+}
 
 local function split(string, separator)
         local separator, fields = separator or ":", {}
@@ -42,7 +45,7 @@ local function update_pane(pos)
   local sum = 0
   for i = 1, 4 do
     local node = minetest.env:get_node({x = pos.x + directions[i].x, y = pos.y + directions[i].y, z = pos.z + directions[i].z})
-    if minetest.registered_nodes[node.name].walkable ~= false then
+    if minetest.registered_nodes[node.name].walkable ~= false and no_join[node.name] ~= true then
       sum = sum + 2 ^ (i - 1)
     end
   end
